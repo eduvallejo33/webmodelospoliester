@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Grid con Modal</title>
+        <style>
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0px;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .modal:target {
+    display: block;
+} */
+
+* {
+	box-sizing: border-box;
+    justify-content: center;
+}
+
+.title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.grid-container {
+    display: grid;
+    margin-top: 50px; /* Ajustado el margen superior para separar el título */
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: space-evenly;
+    position: relative; /* Añadido posicionamiento relativo */
+}
+
+.grid-item {
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* Añadido posicionamiento relativo */
+    z-index: 1; /* Añadido z-index para estar sobre el botón de cierre */
+}
+
+.grid-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.grid-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 90%; 
+    max-height: 90%; 
+    overflow: auto;
+    border-radius: 10px;
+    position: relative;
+}
+
+.modal-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: space-evenly;
+}
+
+.modal-container .panel {
+    text-align: center;
+}
+
+.modal-container .panel img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.container {
+	display: flex;
+	width: 90vw;
+}
+
+.panel {
+	background-size: auto 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 50px;
+	color: #fff;
+	flex: 0.5;
+	cursor: pointer;
+	height: 80vh;
+	position: relative;
+	margin: 10px;
+	transition: flex 0.7s cubic-bezier(0.05, 0.6, 0.4, 0.9);
+
+}
+
+.panel h3 {
+	font-size: 24px;
+	opacity: 0;
+	position: absolute;
+	bottom: 20px;
+	left: 40px;
+	margin: 0;
+	transition: opacity 0s ease-in 0s;
+}
+
+.panel.active {
+	flex: 5;
+}
+
+.panel.active h3 {
+	opacity: 1;
+	transition: opacity 0.3s ease-in 0.4s;
+}
+
+.floating-btn {
+	border-radius: 26.5px;
+	background-color: #001F61;
+	border: 1px solid #001F61;
+	box-shadow: 0 16px 22px -17px #03153B;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 12px 20px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 999;
+}
+
+.floating-btn:hover {
+	background-color: #ffffff;
+	color: #001F61;
+}
+
+.floating-btn:focus {
+	outline: none;
+}
+
+.floating-text {
+	background-color: #001F61;
+	border-radius: 10px 10px 0 0;
+	color: #fff;
+	font-family: 'Muli';
+	padding: 7px 15px;
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	z-index: 998;
+}
+
+.floating-text a {
+	color: #FF7500;
+	text-decoration: none;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+</style>
+
+    </head>
+
+    <body>
+        <div class="title">
+            <h1>Nuestros modelos de piscinas</h1>
+        </div>
+        <div class="grid-container">
+            <div id="acapulco" class="grid-item">
+                <img src="images/acapulco50.jpeg" alt="Acapulco">
+                <h3>Acapulco</h3>
+            </div>
+
+            <div id="bahia" class="grid-item">
+                <img src="images/bahia10.jpeg" alt="Bahía">
+                <h3>Bahía</h3>
+            </div>
+
+            <div id="balear" class="grid-item">
+                <img src="images/balear1.jpeg" alt="Balear">
+                <h3>Balear</h3>
+            </div>
+
+            <div id="beatriz" class="grid-item">
+                <img src="images/beatriz2.jpeg" alt="Beatriz">
+                <h3>Beatriz</h3>
+            </div>
+
+            <div id="canarias" class="grid-item">
+                <img src="images/canarias2.jpeg" alt="Canarias">
+                <h3>Canarias</h3>
+            </div>
+
+            <div id="comunidad" class="grid-item">
+                <img src="images/comunidad2.jpeg" alt="Comunidad">
+                <h3>Comunidad</h3>
+            </div>
+
+            <div id="continental" class="grid-item">
+                <img src="images/continental1.jpeg" alt="Continental">
+                <h3>Continental</h3>
+            </div>
+
+            <div id="dora" class="grid-item">
+                <img src="images/dora1.jpeg" alt="Dora">
+                <h3>Dora</h3>
+            </div>
+
+            <div id="gala" class="grid-item">
+                <img src="images/gala1.jpeg" alt="Gala">
+                <h3>Gala</h3>
+            </div>
+
+            <div id="gondola" class="grid-item">
+                <img src="images/gondola3.jpeg" alt="Góndola">
+                <h3>Góndola</h3>
+            </div>
+
+            <div id="ilusion" class="grid-item">
+                <img src="images/ilusion2.jpeg" alt="Ilusión">
+                <h3>Ilusión</h3>
+            </div>
+
+            <div id="indico" class="grid-item">
+                <img src="images/indico2.jpeg" alt="Indico">
+                <h3>Indico</h3>
+            </div>
+
+            <div id="lanzarote" class="grid-item">
+                <img src="images/lanzarote2.jpeg" alt="Lanzarote">
+                <h3>Lanzarote</h3>
+            </div>
+
+            <div id="marina" class="grid-item">
+                <img src="images/marina2.jpeg" alt="Marina">
+                <h3>Marina</h3>
+            </div>
+
+            <div id="peninsula" class="grid-item">
+                <img src="images/peninsula1.jpeg" alt="Peninsula">
+                <h3>Peninsula</h3>
+            </div>
+
+            <div id="sirena" class="grid-item">
+                <img src="images/sirena1.jpeg" alt="Sirena">
+                <h3>Sirena</h3>
+            </div>
+
+            <div id="spa_padron" class="grid-item">
+                <img src="images/spa_padron1.jpeg" alt="Spa Padron">
+                <h3>Spa Padron</h3>
+            </div>
+
+            <div id="venecia" class="grid-item">
+                <img src="images/venecia1.jpeg" alt="Venecia">
+                <h3>Venecia</h3>
+            </div>
+
+            <div id="venecia_junior" class="grid-item">
+                <img src="images/venecia_junior1.jpeg" alt="Venecia Junior">
+                <h3>Venecia Junior</h3>
+            </div>
+
+            <div id="venus" class="grid-item">
+                <img src="images/venus2.jpeg" alt="Venus">
+                <h3>Venus</h3>
+            </div>
+        </div>
+
+        <!-- Modales -->
+        <div id="modalContainer">
+            <!-- Modal para Acapulco -->
+            <div id="modalAcapulco" class="modal">
+                <!-- Contenido del modal para Acapulco -->
+            </div>
+
+            <!-- Modal para Bahía -->
+            <div id="modalBahia" class="modal">
+                <!-- Contenido del modal para Bahía -->
+            </div>
+
+            <!-- Modal para Balear -->
+            <div id="modalBalear" class="modal">
+                <!-- Contenido del modal para Balear -->
+            </div>
+
+            <!-- Modal para Beatriz -->
+            <div id="modalBeatriz" class="modal">
+                <!-- Contenido del modal para Beatriz -->
+            </div>
+
+            <!-- Modal para Canarias -->
+            <div id="modalCanarias" class="modal">
+                <!-- Contenido del modal para Canarias -->
+            </div>
+
+            <!-- Modal para Comunidad -->
+            <div id="modalComunidad" class="modal">
+                <!-- Contenido del modal para Comunidad -->
+            </div>
+
+            <!-- Modal para Continental -->
+            <div id="modalContinental" class="modal">
+                <!-- Contenido del modal para Continental -->
+            </div>
+
+            <!-- Modal para Diana -->
+            <div id="modalDiana" class="modal">
+                <!-- Contenido del modal para Diana -->
+            </div>
+
+            <!-- Modal para Dora -->
+            <div id="modalDora" class="modal">
+                <!-- Contenido del modal para Dora -->
+            </div>
+
+            <!-- Modal para Gala -->
+            <div id="modalGala" class="modal">
+                <!-- Contenido del modal para Gala -->
+            </div>
+
+            <!-- Modal para Góndola -->
+            <div id="modalGondola" class="modal">
+                <!-- Contenido del modal para Góndola -->
+            </div>
+
+            <!-- Modal para Ilusión -->
+            <div id="modalIlusion" class="modal">
+                <!-- Contenido del modal para Ilusión -->
+            </div>
+
+            <!-- Modal para Índico -->
+            <div id="modalIndico" class="modal">
+                <!-- Contenido del modal para Índico -->
+            </div>
+
+            <!-- Modal para Lanzarote -->
+            <div id="modalLanzarote" class="modal">
+                <!-- Contenido del modal para Lanzarote -->
+            </div>
+
+            <!-- Modal para Marina -->
+            <div id="modalMarina" class="modal">
+                <!-- Contenido del modal para Marina -->
+            </div>
+
+            <!-- Modal para Península -->
+            <div id="modalPeninsula" class="modal">
+                <!-- Contenido del modal para Península -->
+            </div>
+
+            <!-- Modal para Sirena -->
+            <div id="modalSirena" class="modal">
+                <!-- Contenido del modal para Sirena -->
+            </div>
+
+            <!-- Modal para Spa Padron -->
+            <div id="modalSpaPadron" class="modal">
+                <!-- Contenido del modal para Spa Padron -->
+            </div>
+
+            <!-- Modal para Venecia -->
+            <div id="modalVenecia" class="modal">
+                <!-- Contenido del modal para Venecia -->
+            </div>
+
+            <!-- Modal para Venecia Junior -->
+            <div id="modalVeneciaJunior" class="modal">
+                <!-- Contenido del modal para Venecia Junior -->
+            </div>
+
+            <!-- Modal para Venus -->
+            <div id="modalVenus" class="modal">
+                <!-- Contenido del modal para Venus -->
+            </div>
+        </div>
+
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded evento activado');
+const modelos = [
+    { id: 'Acapulco', images: ['acapulco50.jpeg', 'acapulco10.jpeg', 'acapulco20.jpeg', 'acapulco30.jpeg', 'acapulco50.jpeg'] },
+    { id: 'Bahia', images: ['bahia10.jpeg', 'bahia20.jpeg', 'bahia30.jpeg', 'bahia40.jpeg', 'bahia50.jpeg', 'bahia60.jpeg'] },
+    { id: 'Balear', images: ['balear1.jpeg', 'balear2.jpeg', 'balear3.jpeg', 'balear4.jpeg', 'balear5.jpeg', 'balear6.jpeg'] },
+    { id: 'Beatriz', images: ['beatriz1.jpeg', 'beatriz2.jpeg', 'beatriz3.jpeg', 'beatriz4.jpeg', 'beatriz5.jpeg', 'beatriz6.jpeg'] },
+    { id: 'Canarias', images: ['canarias1.jpeg', 'canarias2.jpeg', 'canarias3.jpeg', 'canarias4.jpeg', 'canarias5.jpeg', 'canarias6.jpeg'] },
+    { id: 'Comunidad', images: ['comunidad1.jpeg', 'comunidad2.jpeg', 'comunidad3.jpeg', 'comunidad4.jpeg', 'comunidad5.jpeg', 'comunidad6.jpeg'] },
+    { id: 'Continental', images: ['continental1.jpeg', 'continental2.jpeg', 'continental3.jpeg', 'continental4.jpeg', 'continental5.jpeg', 'continental6.jpeg'] },
+    { id: 'Diana', images: ['diana1.jpeg', 'diana2.jpeg', 'diana3.jpeg', 'diana4.jpeg', 'diana5.jpeg', 'diana6.jpeg'] },
+    { id: 'Dora', images: ['dora1.jpeg', 'dora2.jpeg', 'dora3.jpeg', 'dora4.jpeg', 'dora5.jpeg', 'dora6.jpeg'] },
+    { id: 'Gala', images: ['gala1.jpeg', 'gala2.jpeg', 'gala3.jpeg', 'gala4.jpeg', 'gala5.jpeg', 'gala6.jpeg'] },
+    { id: 'Gondola', images: ['gondola1.jpeg', 'gondola2.jpeg', 'gondola3.jpeg', 'gondola4.jpeg', 'gondola5.jpeg', 'gondola6.jpeg'] },
+    { id: 'Ilusion', images: ['ilusion1.jpeg', 'ilusion2.jpeg', 'ilusion3.jpeg', 'ilusion4.jpeg', 'ilusion5.jpeg', 'ilusion6.jpeg'] },
+    { id: 'Indico', images: ['indico1.jpeg', 'indico2.jpeg', 'indico3.jpeg', 'indico4.jpeg', 'indico5.jpeg', 'indico6.jpeg'] },
+    { id: 'Lanzarote', images: ['lanzarote1.jpeg', 'lanzarote2.jpeg', 'lanzarote3.jpeg', 'lanzarote4.jpeg', 'lanzarote5.jpeg', 'lanzarote6.jpeg'] },
+    { id: 'Marina', images: ['marina1.jpeg', 'marina2.jpeg', 'marina3.jpeg', 'marina4.jpeg', 'marina5.jpeg', 'marina6.jpeg'] },
+    { id: 'Peninsula', images: ['peninsula1.jpeg', 'peninsula2.jpeg', 'peninsula3.jpeg', 'peninsula4.jpeg', 'peninsula5.jpeg', 'peninsula6.jpeg'] },
+    { id: 'Sirena', images: ['sirena1.jpeg', 'sirena2.jpeg', 'sirena3.jpeg', 'sirena4.jpeg', 'sirena5.jpeg', 'sirena6.jpeg'] },
+    { id: 'SpaPadron', images: ['spa_padron1.jpeg', 'spa_padron2.jpeg', 'spa_padron3.jpeg', 'spa_padron4.jpeg', 'spa_padron5.jpeg', 'spa_padron6.jpeg'] },
+    { id: 'Venecia', images: ['venecia1.jpeg', 'venecia2.jpeg', 'venecia3.jpeg', 'venecia4.jpeg', 'venecia5.jpeg', 'venecia6.jpeg'] },
+    { id: 'VeneciaJunior', images: ['venecia_junior1.jpeg', 'venecia_junior2.jpeg', 'venecia_junior3.jpeg', 'venecia_junior4.jpeg', 'venecia_junior5.jpeg', 'venecia_junior6.jpeg'] },
+    { id: 'Venus', images: ['venus1.jpeg', 'venus2.jpeg', 'venus3.jpeg', 'venus4.jpeg', 'venus5.jpeg', 'venus6.jpeg'] }
+];
+
+function createModalContent(modelo) {
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('close');
+    closeButton.innerHTML = '&times;';
+    closeButton.onclick = function () {
+        const modal = modalContent.parentElement;
+        modal.style.display = 'none';
+        modal.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        const firstPanel = modal.querySelector('.panel');
+        if (firstPanel) firstPanel.classList.add('active');
+    };
+
+    const modalContainer = document.createElement('div');
+    modalContainer.classList.add('modal-container');
+    modalContainer.id = `cardContentContainer${modelo.id}`;
+
+    const container = document.createElement('div');
+    container.classList.add('container');
+
+    modelo.images.forEach((image, index) => {
+        const panel = document.createElement('div');
+        panel.classList.add('panel');
+        if (index === 0) panel.classList.add('active');
+        panel.style.backgroundImage = `url('images/${image}')`;
+
+        const h3 = document.createElement('h3');
+        h3.textContent = modelo.id;
+
+        panel.appendChild(h3);
+        container.appendChild(panel);
+
+        panel.addEventListener('click', function() {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            panel.classList.add('active');
+        });
+    });
+
+    modalContainer.appendChild(container);
+    modalContent.appendChild(closeButton);
+    modalContent.appendChild(modalContainer);
+    console.log('Modal creado para el modelo:', modelo);
+    return modalContent;
+}
+
+    function generateModals() {
+        modelos.forEach(modelo => {
+            console.log('Generando modal para modelo:', modelo);
+            const modal = document.getElementById(`modal${modelo.id}`);
+            modal.innerHTML = '';
+            modal.appendChild(createModalContent(modelo));
+        });
+    }
+
+    generateModals();
+
+    document.querySelectorAll('.grid-item').forEach(item => {
+        item.addEventListener('click', function() {
+            console.log('Clic en grid-item:', this.id);
+            const modalId = 'modal' + this.id.charAt(0).toUpperCase() + this.id.slice(1);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        });
+    });
+
+    document.querySelectorAll('.close').forEach(button => {
+        button.addEventListener('click', function() {
+            console.log('Clic en botón de cierre');
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+});
+</script>
+</body>
+</html>
