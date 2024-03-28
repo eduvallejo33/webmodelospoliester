@@ -6,7 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Grid con Modal</title>
         <style>
-
+body{
+    background-image: url('images/pngtree-sea-__sea-bottom-light-advertising-background-picture-image_2249618.jpeg'); /* Ruta de la imagen de fondo */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
 
 .modal {
     display: none;
@@ -106,12 +111,17 @@
     overflow: auto;
     border-radius: 10px;
     position: relative;
+    background-image: url('images/pngtree-sea-__sea-bottom-light-advertising-background-picture-image_2249618.jpeg'); /* Ruta de la imagen de fondo */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
 }
 
 .modal-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    width: 980px;
     justify-content: space-evenly;
 }
 
